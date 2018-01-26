@@ -1,0 +1,8 @@
+a.out
+a.txt
+b.txt
+input
+jash.c
+Makefile
+README.txt
+test

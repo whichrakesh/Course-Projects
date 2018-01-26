@@ -1,0 +1,112 @@
+Lab 08 - Understanding BGP routing tables
+
+
+How many IP prefixes does the Internet have? (count all prefixes even if they do not cover mutually exclusive IP address ranges)
+	Answer: 525483
+
+How many unique ASes? 
+	ANswer: 34
+
+My laptop’s network prefix (as seen outside) is 180.151.244.118/23 - list all AS paths leading to this prefix. The IP address prefix of MIT is 18.0.0.0/8 - list all AS paths leading to this prefix as well. Now, using the above two pieces of information, list a possible path of ASes traversed when we send an IP packet from MIT to my home network, and explain how you arrived at this path. Assume that any valid AS path found in the routing table is working and can be used to carry data.
+Answer: To 180.151.244.118/23:
+	8492 9002 9498 10029
+	3561 3356 55410 10029
+	1239 1299 9498 10029
+	2914 3549 9498 10029
+	701 1299 9498 10029
+	293 3257 9498 10029
+	1668 3356 55410 10029
+	37100 9498 10029
+	7660 4635 1273 55410 10029
+	3257 9498 10029
+	3130 1239 3356 55410 10029
+	40191 3257 9498 10029
+	1299 9498 10029
+	6762 9498 55410 10029
+	5413 3549 9498 10029
+	3356 55410 10029
+	286 3356 55410 10029
+	6939 9498 10029
+	1221 4637 3549 9498 10029
+	11686 19151 9498 10029
+	3741 9498 10029
+	3549 9498 10029
+	6539 577 3549 9498 10029
+	13030 9498 10029
+	22652 3356 55410 10029
+	2152 3356 55410 10029
+	852 3257 9498 10029
+	3549 9498 10029
+	7018 3257 9498 10029
+	2497 3491 55410 10029
+	3130 2914 3356 55410 10029
+	3303 3257 9498 10029
+
+	To 18.0.0.0/8:
+	8492 20485 3356 3
+	1239 174 3
+	3561 3356 3
+	293 3
+	1668 3356 3
+	701 3356 3
+	2914 3356 3
+	11537 10578 3 3 3
+	37100 3356 3
+	3257 3356 3
+	3130 1239 3356 3
+	40191 174 3
+	22388 11537 10578 3 3 3
+	1299 3356 3
+	3741 3356 3
+	6939 11164 10578 3
+	286 3356 3
+	3549 3356 3
+	13030 11164 10578 3
+	1221 4637 174 3
+	6539 577 174 3
+	2152 2153 11537 10578 3 3 3
+	3356 3
+	5413 3356 3
+	852 174 3
+	6762 3356 3
+	22652 3356 3
+	11686 19782 11537 10578 3 3 3
+	3549 3356 3
+	7018 174 3
+	2497 3356 3
+	3130 2914 3356 3
+	3303 174 3
+	7660 22388 11537 10578 3 3 3
+
+	Route: 3 3356 55410 10029
+
+Correlate the information in the RIB with traceroute information (at end of this doc)
+What fraction of prefixes in the RIB see announcements and withdrawals in the updates file? Identify one of the prefixes that saw a large number of updates (use your judgement for what constitutes "large"). Look through its updates and explain what could possibly be going on to cause the large number of updates. (Note that you can only guess, as you have no way of being sure. But make an intelligent guess based on the updates.)
+	Answer:
+		17147/525483 = 0.032
+		112.215.16.0/24 having 1239 updates.
+
+
+Inferring AS relationships
+In this part, we will be using the idea in Lixin Gao's paper on inferring relationships between autonomous relationships
+The paper states that any AS path will be a series of (zero or more) customer to provider links leading up to a large provider, followed by an optional peering link, followed by a series of (zero or more) provider to customer links. The large, possibly tier 1, provider in the middle is identified by assuming it is the AS of the largest degree in the AS path.
+We will use the above simple heuristic to infer transit (customer/provider) relationships only, while the paper goes into more detail on peering and sibling relationships. That is, we will try to do the following. First, we will compute the degrees of all ASes. Then, if you see an AS path "A B C D", and B is the AS with the largest degree on this path, then you will infer that A-B is a customer-provider link, and B-C and C-D are provider customer links.
+
+Write a script  that reads the RIB file and prints a list of AS numbers followed by their degree in decreasing order of degree. That is, your output should contain one line for each AS, with AS number and degree on the line. You should list the ASes in decreasing order of degree.
+
+For the given file, the first few lines of output to the terminal should look as follows:
+174 4304
+3356 4042
+6939 3399
+7018 2384
+4323 1869
+
+
+The above output shows AS number followed by degree on each line in decreasing order of degree. There are of course many more lines in the output.
+
+Now pick one of the AS paths from MIT leading to IITB from the RIB (e.g. you may pick the path you listed in Exercise 1.3). Infer provider/customer AS relationships using the AS degree based heuristic described above. Comment on whether the inferred AS relationships look accurate to you by doing the following. Look up the names of the ASes on the Internet on any whois database, and see if the ASes that you inferred as providers do in fact sound like providers/ISPs from their names.
+
+Example Whois Database:
+http://wq.apnic.net/apnic-bin/whois.pl
+
+

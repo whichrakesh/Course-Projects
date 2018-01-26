@@ -1,0 +1,4 @@
+sequential echo "suman" ::: ls ::: random_chutiyapa ::: echo "not to be printed"
+cd test
+ls
+pwd

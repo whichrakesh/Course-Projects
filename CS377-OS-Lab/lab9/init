@@ -1,0 +1,9 @@
+Memory_size 6
+Lower_threshold 2
+Upper_threshold 4
+uname rakesh
+mkdir rakesh Downloads
+cd rakesh Downloads
+create rakesh 1 123
+create rakesh 2 531
+end

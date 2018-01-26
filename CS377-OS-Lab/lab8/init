@@ -1,0 +1,7 @@
+Memory_size 6
+Lower_threshold 2
+Upper_threshold 4
+create 1,123
+create 2,531
+Page_table
+end

@@ -1,0 +1,99 @@
+Use the following cache configuration: unified cache size of 4KB, 4-word blocks, direct-mapped, write-back+write-allocate.
+./dineroIV -l1-usize 4k -l1-ubsize 16 -l1-uassoc 1 -l1-uwback a  -l1-uwalloc a -informat d < cc1.din
+
+
+Question [1 mark]: If the Nth memory reference is the first non-compulsory miss, find the value of N. Find N for each of the 3 trace files given. Hint: the simulator can be told to run for only a certain number of memory references.
+
+./dineroIV -l1-usize 4k -l1-ubsize 16 -l1-uassoc 1 -l1-uwback a  -l1-uwalloc a -l1-uccc -maxcount 130 -informat d < ../d4-traces/cc1.din 
+Answer: cc1.din: 225
+        tex.din: 82
+        spice.din: 2072
+        
+Impact of cache size
+    Use the following cache configuration: unified cache, 2-way set associative, 4-word blocks, write-back+write-allocate.
+
+    Question [3 marks]: Vary the cache size from 4KB to 512KB (8 different sizes). Plot the miss-rate as a function of the cache size. Your graph should have 3 plots: one for each of the 3 trace files. Explain the shape of the graph.
+        ./dineroIV -l1-usize 4k -l1-ubsize 16 -l1-uassoc 2 -l1-uwback a  -l1-uwalloc a -l1-uccc  -informat d < ../d4-traces/cc1.din 
+        cc1:
+                4k: 0.1217
+                8k: 0.0823
+                16k:  0.0478	
+                32k:  0.0263
+                64k:  0.0180
+                128k: 0.0151
+                256k: 0.0134	
+                512k: 0.0126	
+         tex: 
+                4k: 0.0051
+                8k: 0.0049
+                16k:  0.0035	
+                32k:   0.0029
+                64k:   0.0029	
+                128k:  0.0029	
+                256k:  0.0029		
+                512k:  0.0029	       
+         spice: 
+                4 k:  0.0641
+                8 k:  0.0359
+                16 k:  0.0151
+                32 k:  0.0069
+                64 k:  0.0042
+                128 k:  0.0038
+                256 k:  0.0038
+                512 k:  0.0038
+        
+        As the cache size increases, there is a decrease in the miss rate. due to decrease in the conflict miss rates as the number of blocks in the cache is increasing. Eventually the rate becomes constant because after some cache size the number of conflict misses tends to zero.  
+                       
+ Impact of block size
+
+Use the following cache configuration: unified cache of 8KB size, 2-way set associative, write-back+write-allocate.
+
+    Question [3 marks]: Vary the block size from 1-word to 256-words (9 different sizes). Plot the miss-rate as a function of the block size. The graph should have one plot each for the 3 trace files. Explain the shape of the graph.
+         cc1: 
+                1 word:  0.1968
+                2 word:  0.1214
+                4 word:  0.0823
+                8 word:  0.0600
+                16 word:  0.0485
+                32 word:  0.0430
+                64 word:  0.0417
+                128 word:  0.0468
+                256 word:  0.0644
+          tex: 
+                1 word:  0.0183
+                2 word:  0.0092
+                4 word:  0.0049
+                8 word:  0.0027
+                16 word:  0.0019
+                32 word:  0.0030
+                64 word:  0.0053
+                128 word:  0.0145
+                256 word:  0.0396
+          spice:
+                1 word:  0.0729
+                2 word:  0.0497
+                4 word:  0.0359
+                8 word:  0.0276
+                16 word:  0.0266
+                32 word:  0.0251
+                64 word:  0.0254
+                128 word:  0.0338
+                256 word:  0.0430
+      
+        The miss rate decreases initially then increases after some point. This can be explained as the compulsory misses decreases initially which impacts on the total miss rate. After some point the increase in conflict misses has more impact on the total miss rate.
+        
+Impact of associativity
+
+    Use the following cache configuration: unified cache of 8KB cache size, 4-word blocks, write-back+write-allocate.
+
+    Question [3 marks]: Vary the associativity from the minimum possible to the maximum possible. Plot the miss-rate as a function of the associativity. As earlier, there should be a plot each for the 3 trace files. Explain the shape of the graph.
+                ./q2.sh | grep 'Demand miss rate' | awk -f q.awk > ../assoc
+
+        Ans: for cc1.din, refer cc1-associativity
+             for tex.din, refer tex-associativity
+             for spice.din, refer spice-associativity
+       The miss rate at power of 2 increases decreases due to less number of conflict misses as the set size is increased. This eventually tends to be constant as number of conflict misses tends to be zero and all misses tends to be due to compulsory misses which remain constant. The miss rates just after power of 2 are more because of more capacity misses. 
+        
+       
+
+      

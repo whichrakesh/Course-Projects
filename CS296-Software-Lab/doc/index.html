@@ -1,0 +1,121 @@
+<html>
+	<head>
+		<title>Project Page</title>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<style>
+			.member{
+				text-align:center;
+			}
+			body{
+				font-family: 'Open Sans', sans-serif;
+			}
+			.content{
+				width:80%;
+				margin:auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<h1 style="text-align:center">Project: JCB Digger</h1>
+			<p>
+				We are doing JCB Digger as the complex machine for our CS296 project. 
+				The initial design for the complex machine is
+				<a href="http://www.cse.iitb.ac.in/~rakeshranjan/cs296-lab01-sub.html">here</a>, which was made as
+				a part of the first assignment.
+			</p>
+			<p>
+				We have tried to follow the original design as close as possible, though we have wheels in our simulation
+				and added a digger at the front. The final design looks more like a digger. We tried the final project to look more
+				like a physical digger like this.
+			</p>
+			<img src="images/jcb-digger.jpg" width="100%">
+			<p>
+				We have used <a href ="http://www.box2d.org/">Box2D</a> to simulate the Digger in testbed. 
+				All parts in the Digger are defined in dominos_t class. All parts are joined together using various joints like revolute joints,
+				distance joints, wheel joints and weld joints to give the digger the required behaviour.
+			</p>
+			<img src="images/final_design.png" width="100%">
+			<img src="images/final_design2.png" width="100%">
+			<p>
+				We analysed our simulation by plotting avg. times for our simulation against number of iterations using matplotlib and tried to 
+				explain the graph's behaviour by including the Graphics. The detailed report can be found <a href="g26_project_report.html">
+				here</a>. 
+			</p>
+			<div>
+				<p>
+					<b>References</b>
+					<ul>
+						<li>
+							<a href="http://www.box2d.org/">Box2D homepage.</a>
+						</li>
+						<li>	
+							<a href="http://science.howstuffworks.com/transport/engines-equipment/hydraulic.htm">
+								How Hydraulic Machines Work
+							</a>
+						</li>
+						<li>	
+							<a href="http://tldp.org/LDP/abs/html/">Advanced Bash-Scripting Guide</a>
+						</li>
+						<li>
+							<a href="http://www.gnuplot.info/">Gnuplot homepage</a>
+						</li>
+						<li>
+							<a href="http://www.grymoire.com/Unix/Awk.html">An introduction to awk</a>
+						</li>
+						<li>	
+							<a href="http://www.thegeekstuff.com/2012/08/gprof-tutorial/">Gprof Tutorial</a>
+						</li>
+						<li>	
+							<a href="http://baptiste-wicht.com/posts/2011/07/profile-applications-linux-perf-tools.html">
+								Short Perf Tutorial
+							</a>
+						</li>
+					</ul>
+				</p>
+			</div>
+			<table width=100%>
+				<tr>
+					<td colspan="3" style="text-align:center">
+						<b>Members of the project</b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="member">
+							<a href='http://www.cse.iitb.ac.in/~amola/'>
+								<img  width=100% src="images/amol.jpg">
+							</a>
+							<div style="width:100%">
+							Amol agarwal<br>
+							120110031
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="member">
+							<a href='http://www.cse.iitb.ac.in/~rakeshranjan'>
+								<img  width=100% src="images/rakesh.jpg">
+							</a>
+							<div style="width:100%">
+							Rakesh Ranjan Nayak<br>
+							120050047
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="member">
+							<a href='http://www.cse.iitb.ac.in/~shashankb/'>
+								<img  width=100% src="images/shashank.jpg">
+							</a>
+							<div style="width:100%">
+							B Shashank <br>
+							120050076
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,24 @@
+1. Answer the following questions: 
+Q1. How to execute a user program: Where should we put the source code file and how should we execute that program? Which are all the files which can be included in the user space.
+Ans: User source code is in  in /opt/GeekOS/src/usr/. TO run it make GeekOS again and run the executable made in /opt/GeekOS/build/user/ through GeekOS terminal.
+The files in “/opt/GeekOS/include/libc” can be included in the user space.
+
+ Q2: To understand the code of a system call, we have to study 
+(i) Header file of that system call, (ii) Source file for that systemcall , (iii) include/libc/syscall.h, and (iv) src/libc/syscall.c. For example there is a systemcall Get_Key(), which is very similar to scanf() in C. For that system call we have to study include/libc/conio.h, src/libc/conio.c, include/libc/syscall.h and, src/libc/syscall.c. 
+(a) Describe what is the purpose of each of these 4 files. 
+i.   Header File of the system call contains the declaration for the syscall function
+ii.  Source file for that system call contains the definition of the syscall using DEF_SYSCALL macro. 
+iii. include/libc/syscall.h contains the enum constant for the syscall and the DEF_SYSCALL macro definition
+iv. src/libc/syscall.c contains the kernel level definition of the syscall handler. It also contains an array having all the function names.
+
+(b) Explain what changes have to be made in these four files to add a new system call. 
+i. declaration should be added to the header file corresponding to the system call
+ii. DEF_SYSCALL should be called using the new system call properties as parameter
+iii. The system call should be included in the enum in syscall.h
+iv. corresponding system call handler should be defined in syscall.c and the function name should be stored in Syscall g_syscallTable array in the index corresponding to the syscall number
+
+Q3. While adding a system call, how do we tell the OS about number of parameters passed in the call? Follow the hint in Q2 and find which variables contain relevant information. 
+Ans: 6th argument of DEF_SYSCALL is reg. It can take values SYSCALL_REGS_0, SYSCALL_REGS_1,SYSCALL_REGS_2,SYSCALL_REGS_3,SYSCALL_REGS_4 or SYSCALL_REGS_5, and this argument decides the number of parameter passed while adding a syscall.
+
+Q.4 Find where the pid of a process is stored. (Hint: In syscall.c we can see a variable CURRENT_THREAD. CURRENT_THREAD is a pointer to Kernel_Thread structure declared in kthread.h. Look into Kernel_Thread structure.) 
+Ans: in the kthread.h we are maintaining a struct “Kernel_Thread” which take care of all the att

@@ -1,0 +1,7 @@
+Question [1 mark]: What is a cross-compiler? What is the host platform? What is the target platform? You can use the Internet to learn these.
+A cross compiler is a compiler capable of creating executable code for a platform other than the one on which the compiler is running. Host platform is the platform where the cross-compiler is run. The target platform is the platform for which the code is compiled. 
+
+Question [1 mark]: Compute the instruction execution count for “gcd-opt.s”. How much faster is it compared to “gcd-noopt.s”?
+gcd-opt.s is approx. 2 times faster than gcd-opt.s.
+gcd-opt.s has 68 lines and gcd-noopt.s has 141 lines.
+

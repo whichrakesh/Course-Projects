@@ -1,0 +1,11 @@
+Question [0.5 marks]: What branch prediction technique does the simulator use? Substantiate your answer. You can use any program other than factorial.s for this, if convenient.
+A:  2-stage branch completion and assume branch not taken. In factorial.s, while running the branch instruction(bnez) there is a RAW stall in the ID stage and the next instruction is also pipelined before the evaluation of the branch condition.
+
+Question [0.5 marks]: In which stage does the branch instruction require its inputs? Substantiate your answer.
+A: 2nd stage. As there is a RAW stall in the ID stage in bnez instruction in factorial function after slti command, it means it is expecting inputs in the second stage only.
+
+
+
+
+
+

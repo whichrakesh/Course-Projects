@@ -1,0 +1,37 @@
+Make the modification as suggested above, and save it in a file called 'mat-mult-opt.c'. Compile and run the modified program 'mat-mult-opt.c'. Compute the median run time of 5 runs, as earlier. Compare the run-time with the earlier run-time. Do you get a 'feel' for the effect of caches on your program's performance?
+
+Answer :
+	simple algorithm: 0m1.087s
+	optimised algorithm: 0m0.776s
+
+Demo to TA [3 marks]: Run the modified programs. Get the output file and feed it as input to 'dineroIV' with the following configuration: 16-word blocks, 128KB data cache size, direct-mapped, write-back with write-allocate. Are you able to bolster your observations regarding program performance from the previous exercise?
+Answer:
+../120050047-09/a.out | ./dineroIV -l1-dsize 128k -l1-dbsize 64 -l1-dassoc 1 -l1-dwback a  -l1-dwalloc a -informat d
+
+mat-mult.c : 	4030100 instructions, 15684 demand misses, 0.0039 demand miss rate
+mat-mult-opt.c: 4050100	instructions, 12974	demand misses, 0.0032 demand miss ratem 
+
+Demo to TA [4 marks]: Implement a 'C' program using the above idea, called 'guess-cache-size.c'. Plot the above-mentioned graph, and explain how you have guessed the cache size.
+
+Answer: 16KB as the the graph increases abruptly at 4096 and we have 4bytes as sizeof(int).  
+
+1	1.63708e-08
+2	1.52487e-08
+4	1.53029e-08
+8	1.51223e-08
+16	1.50615e-08
+32	1.50779e-08
+64	1.50836e-08
+128	1.51143e-08
+256	1.51803e-08
+512	1.51387e-08
+1024	1.50033e-08
+2048	1.4933e-08
+4096	1.46408e-08
+8192	1.53372e-08
+16384	1.56809e-08
+32768	1.57614e-08
+65536	1.6249e-08
+131072	1.70822e-08
+262144	1.67878e-08
+524288	1.64028e-08

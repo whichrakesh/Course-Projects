@@ -1,0 +1,2 @@
+Question [1 mark]: What were the aspects which were most difficult in the above assembly language programming? Which aspects can be improved with better practice, and which aspects cannot be?
+A: The ability to convert HLL code into assembly code by using stack pointers. This can be improved with practice. The ability to link functions and performing OOP aspects like inheritance, polymorphism are very difficult and can't be improved with better practice and can only be carried out by a computer.

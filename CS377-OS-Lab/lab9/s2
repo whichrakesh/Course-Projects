@@ -1,0 +1,5 @@
+access 300 113
+open a.txt
+modify 623 223
+read a.txt 100
+end

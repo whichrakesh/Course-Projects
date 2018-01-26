@@ -1,0 +1,151 @@
+                CS 377 : Operating Systems Laboratory
+                Assignment #6, 27 February 2015
+
+Question 1:
+Boot Process is started from GeekOS/src/geekos/main.c. There are many function calls are there in main.c . Give a brief description for each of the function call and where is that function defined.
+(Make yourself familiar with those functions as some basic questions will be asked about those functions .)
+(Hint: See All the header files inherited by main.c and search for function definition. Or Try to use cscope for this purpose.)
+Answer:
+    Init_BSS(); // defined in mem.c, Initializes .bss section of the kernel executable image, fills bss with zero (bss is better save image where unitialized variables are stored)			
+    Init_Screen(); // defined in screen.c, Initializes the screen module
+    Init_Mem(bootInfo);// main.c, Initialize memory management data structures. Enables the use of Alloc_Page() and Free_Page() functions.
+    Init_CRC32();// crc32.c, This routine writes each crc_table entry exactly once, with the correct final value.  Thus, it is safe to call even on a table that someone else is using concurrently.CRC table is used for error detection.
+    Init_TSS();// tss.c, Initializes the kernel TSS. This must be done after the memory and GDT(Global Descriptor Table) initialization, but before the scheduler is started.
+    lockKernel(); smp.c, Implements coarse grained kernel locks.  The functions lockKernel and unlockKernel will be called whenever interrupts are enabled or disabled.  This includes in interrupt and iret (see lowlevel.asm).
+    Init_Interrupts(0);//int.c, Initialize the interrupt system. Initialize all entries of the handler table with a dummy handler. This will ensure that we always have a handler function to call.
+    Init_SMP();//smp.c, initializes symmetric multiprocessing for multi core CPU systems
+    Init_Scheduler(0, (void *)KERN_STACK);// kthread.c, creates kernel thread for the main process with KERN_STACK as it's stack and starts it, creates Idle thread and Reaper thread
+    Init_Traps();//trap.c, Initialize handlers for processor traps.
+    Init_Local_APIC(0); //smp.c, setup local APIC including calibrating its timer register(Advanced Programmable Interrupt controller)
+    Init_Timer(); // timer.c, initializes timer	
+    Init_Keyboard();// initializes keyboard
+    Init_DMA(); //dma.c, initializes DMA controller
+    Init_IDE(); //ide.c, initializes IDE controller
+    Init_PFAT(); //pfat.c, registers PFAT file system 
+    Init_GFS2(); //gfs2.c, registers GFS2 file system
+    Init_GOSFS(); //gosfs.c, registers gosfs file system 
+    Init_CFS(); // cfs.c, registers cfc file system
+    Init_Alarm(); /*defined in alarm.c and initialises an alarm which is set for some time*/
+
+    Release_SMP(); /*defined in smp.c and and releases resources to symmetric multiprocessing*/
+
+    /* Initialize Networking */
+    Init_Network_Devices(); /*defined in net.c and initializes network devices found on hardware*/
+    Init_ARP_Protocol(); /*defined in arp.c and prepare arp table for network communication*/
+    Init_IP(); /*defined in net/ip.c and initialise the ip of the machine */
+    Init_Routing(); /*defined in net/ip.c and initialize the routing table with all local routes*/
+
+    Init_Sockets(); /*defined in net/sockets.c and initialises the sockets of hardware*/
+    Init_RIP(); /*defined in net/rip.c initialisation of rip protocol*/
+    /* End networking subsystem init */
+
+    /* Initialize Sound */
+    Init_Sound_Devices(); /*defined in sound.c and initializes sound devices*/
+    /* End sound init */
+
+    Mount_Root_Filesystem(); /*defined in main.c and mounts the file system of the hardware for use*/
+
+    Set_Current_Attr(ATTRIB(BLACK, GREEN | BRIGHT)); /*defined in screen.h and set the current character attribute.*/
+
+    Print("Welcome to GeekOS!\n"); /*defined in screen.h and print the text on screen*/
+
+    Set_Current_Attr(ATTRIB(BLACK, GRAY));/*defined in screen.h and set the current character attribute.*/
+
+    Spawn_Init_Process(); //defined in main.c. loads and runs shell.exe 
+
+    Hardware_Shutdown(); //defined in main.c. shuts down the hardware
+
+Question 2:
+Add a kernel thread on the bootup of the GeekOS, just after the init() process. Kernel state will be maintained for that thread. Traverse the whole kernel_thread structure and tell what operation does each element in the kernel_thread structure mean ?
+    esp: current stack pointer for the process stack
+    numTicks: number of CPU ticks occurred till now
+    totalTime: total service time elapsed by the process
+    priority: priority of the process
+    stackPage: base address of the process stack
+    userContext: the program context for the process
+    owner: parent process
+    affinity:
+    refCount: how many references including it’s self reference
+    detached: detached or not. detached processes don't linger on Exit as zombies waiting for Wait to reap
+    pid: pid of the process
+    threadName: Name of the thread
+    alive: alive or dead
+    joinQueue: used for join()
+    exitCode: in case of jomibie processes the exit code when it the process exited
+
+Add a function that asks for a password and compares it with some stored password to decide whether to allow access.
+(Hint: Passwords should be stored in a file with some standard name, say Password.txt. Put this file in GeekOS/build/user/Password.txt and in Open function path will be “/c/Password.txt” .See fileio.h and string.h)
+Answer:
+static void Authenticate(){
+    struct File * passwordFile;
+    Open("/c/Password.txt", 0, &passwordFile);
+    char pass[1024];
+    Read(passwordFile, pass, 1024);
+    Keycode k;
+    while(true){
+        Print("Enter Root Password: ");
+        char buff[1024];
+        int i = 0;        
+        do{
+            k = (Keycode) Wait_For_Key();
+            if ((k & KEY_SPECIAL_FLAG) || (k & KEY_RELEASE_FLAG))
+                continue;
+            if (k == '\r')
+                k = '\n';
+            k &= 0xff;            
+            if(k == '\n'){
+                Put_Char('\n');
+                buff[i++] = '\n';
+                buff[i++] = '\0';
+                break;
+            }
+            Put_Char('*');
+            buff[i++] = k;
+        }while(true);
+        if (!strcmp(pass, buff)){
+            return;
+        } else{
+            Print("Incorrect Password! Try Again.\n"); 
+        }
+    }
+}
+
+Question 3:
+Many operating systems do not use terms “Kernel Thread and User Thread”strictly. So we have to study kernel threads of Geekos and decide whether it is a kernel-level thread or user-level thread.
+Give proper reasons for your answer.
+(Refer Class notes to get the difference between User Thread and Kernel Thread)
+
+Answer:
+    GeekOS doesn’t distinguish between kernel level threads and user level thread. Both the threads are inserted into the s_runQueue which is used by the main scheduler for scheduling. So, effectively GeekOS uses kernel-level threads for scheduling. 
+
+Question 4:
+In Question 2, you are waiting for the keyboard input i.e waiting for an I/O.Say, how is a process put to sleep or activated when it is engaged in doing I/O?
+(Describe from both I/O as well as scheduling point of view.)
+
+    If the process is waiting for an I/O, then the thread is added to a wait queue, namely "s_waitQueue" which holds the threads waiting for keyboard events and the scheduler is called. The scheduler gets the next best thread from the runnable queue and the execution is switched to that thread.
+
+	When a keyboard event occurs, the interrupt handler(Keyboard_Interrupt_Handler) wakes up all the threads waiting for keyboard events which are present in s_waitQueue and enqueues the pressed key in s_queue . The wake up function makes all the threads in a given queue runnable and empties the queue. The next time the thread is scheduled, It detects that s_queue is not empty so deques s_queue to get the key pressed and continue other operations. 
+
+Question 5:
+In GeekOS source files they have given TODO_P(PROJECT_NAME,”Message”) for some of the functions instead of giving actual definition. For example in syscall.c
+static int Sys_Fork(struct Interrupt_State *state)
+{
+ TODO_P(PROJECT_FORK, "Fork system call");
+ return EUNSUPPORTED;
+}
+Give detailed implementataion level work flow for fork() system call.
+
+1. A process fork() system call to create a child process
+    Calls the Create_Thread function which will call the init_thread function.
+    
+2. Kernel fork system call (Sys_fork) duplicates the process running the program.    
+    The function creates a new instance of User_Context such that the Program context of the child process is same as that of the parent process.    
+    The content of StackPage of parent is copied to the stack of the newly created child process. and esp is set accordingly. 
+    Also, A Kernel thread is created using Start_User_Thread() by passing The User_context and the false as parameter.
+    
+3. The kernel sets the return value for the system call for the original program and for the duplicate (PID of the duplicate and 0, respectively)
+    Change the return value in the new stack page.
+    
+4. The kernel puts both the processes in the scheduler queue
+    In the Sys_Fork() function make a call to Make_Runnable_Atomic(...) to add the old process to the list of running processes and make a call to scheduler.
+

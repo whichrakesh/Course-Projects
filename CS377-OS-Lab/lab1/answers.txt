@@ -1,0 +1,92 @@
+1.
+The file to look into for a and b, /proc/cpuinfo
+a.     
+    cache size      :  2048 KB
+    address sizes   : 36 bits physical, 48 bits virtual
+
+b.
+	cpu family      : 6
+	model           : 42
+	cores: 2
+
+c.     
+	soft limit: 1024
+	hard limit: 4096
+	file in which these details are there /proc/[pid]/limits
+d.
+    Process-preemption:  The act of temporarily interrupting a process with the intention of resuming it at a later time is called preemption. This is carried out by a part of the system known as preemptive scheduler.  This involves invoking a scheduler to know which process to execute next. Preemptive multitasking ensures fairness to all processes by guaranteeing a slice of time for each program getting executed. 
+
+
+2.
+The times for the processes are there in /proc/[pid]/stat. Dividing the values by sysconf(_SC_CLK_TCK) = 100 gives the value of user and kernel time in second.
+ i.
+	user time: 28.70s
+	kernel time: 0.11
+ii.
+    user time: 28.86s
+	kernel time: 0.02s
+
+Explanation: In the case, as we can see the user time we got are approx the same. but the kernel times are different that may be due to the large size of the input number we are taking. the library must be doing some clever things which would reduce the number of system calls.
+
+3. 
+a.         D    uninterruptible sleep (usually IO)
+               R    running or runnable (on run queue)
+               S    interruptible sleep (waiting for an event to complete)
+               T    stopped, either by a job control signal or because it is
+                    being traced
+               W    paging (not valid since the 2.6.xx kernel)
+               X    dead (should never be seen)
+               Z    defunct ("zombie") process, terminated but not reaped by
+                    its parent
+
+c.  kill [pid] of the process
+4.
+a.     
+in 1st file: 536936432
+        in 2nd file: 546675531
+
+b.     
+first 79.8
+second 63.2
+
+c.    first:
+        voluntary_ctxt_switches:        136
+        nonvoluntary_ctxt_switches:     20815
+
+    second
+        voluntary_ctxt_switches:        96
+        nonvoluntary_ctxt_switches:     156819
+
+
+after changing  the priority of the first process the values are
+
+a.     
+in 1st file: 502558720
+        in 2nd file: 584871936
+
+b.     
+first 87.8
+second 98.2
+
+c.     
+first:
+        voluntary_ctxt_switches:        181
+        nonvoluntary_ctxt_switches:     139877
+second:
+        voluntary_ctxt_switches:        229
+        nonvoluntary_ctxt_switches:     32130
+
+
+
+    
+5. 
+a. load average over 1, 5, and 15 minutes: 0.45 0.69 0.44  ( got from /proc/loadavg)
+b. after running  the program  load averages got: 1.97 0.88 0.47
+c. due to the running of the program continuously  which uses approx 100% CPU time, the load increases by approx 1. 
+d. we increased the load by creating child processes inside the for loop.
+
+6.
+a. signal number: 8
+b. Floating point exception
+c. we got the signal number corresponding to the interrupt from SigCgt field of the file /proc/[pid]/status. 
+d. We could not find the iteration number corresponding to the loop.

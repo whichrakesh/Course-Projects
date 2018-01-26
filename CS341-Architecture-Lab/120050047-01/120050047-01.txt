@@ -1,0 +1,32 @@
+Question [1 mark]: 
+	In the xspim window, identify the various parts of the screen which you can understand; also identify the parts which you cannot understand (as yet).
+Answer:
+	the first screen shows the value of the registers.
+	second screen(Text segments) shows the assembly and the machine codes for our code instructions.
+	The third screen(Data segments) shows Global Data, stack and kernel data.
+	The fourth screen segment shows logs, Warning and errors in the code while it runs.
+	I could not understand properly the 3rd screen segment.
+	
+Question [0.5 marks]: Identify the address at which your program begins. You can use the “print” “global symbols” button for this.
+Answer: The program starts at 0x00400024
+
+Question [0.5 marks]: Is “li” really a MIPS instruction? Its a pseudo-instruction. What does it get translated into?
+Answer:	No "li" is not really a MIPS instruction. It gets translated to ori. The instruction or the integer with 0 to store the value in the required register.
+
+Question [1 mark]: Identify the machine code of your instructions. Identify the op-codes (higher order 6 bits of the machine code) of the various instructions in your assembly code.
+	li $t0,1 => 0x34080001 
+	addi $t1,$t0,2 =>0x21090002
+	li $v0,1 => 0x34020001
+	move $a0,$t1 => 0x00092021
+	syscall => 0x0000000c
+
+	--opcodes--
+	li => 001101
+	addi => 001000
+	move => 000000
+	syscall => 000000
+
+
+
+
+

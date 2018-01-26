@@ -1,0 +1,78 @@
+Exercise 2: Simple Stuff [15 Min]
+
+Q1: Whats your machine's host name and IP address? How did you get this information?
+A: host name is rakesh. We got this from /etc/hostname. 
+
+Q2: What is the next hop router's IP address and MAC address? How did you get this information?
+A: next hop router's ip address is 10.105.1.250 and MAC address is 00:19:56:ed:66:c1. We got the next hop router's ip address from route command in ubuntu. we used arp to get it's MAC address.
+
+Q3: What is the local DNS server's host name and IP address? How did you get this information?
+A: local DNS server's name is cse.iitb.ac.in. we got it from /etc/resolv.conf. It's IP address is 10.105.1.1. We got using host command.
+
+Q4: What do the numbers in the file /etc/protocols represent?
+A: Protocol numbers for the given protocols.
+
+Q5: What is the port number associated with applications: ssh, ftp, nfs, smtp (email)?
+A:  ssh => 22
+	ftp => 21
+	nfs => 2049
+	smtp => 25
+
+Exercise 3:
+1. Explain your design by specifying the exact commands (with options) you will run and in which order. Avoid description unless absolutely necessary.
+A: First we ran `sudo tcpdump -n host synerg.cse.iitb.ac.in -w log` and kept it running. we used `wget synerg.cse.iitb.ac.in` to get index.html and captured the packets. we ran wireshark to see the packet info.
+
+2. Select the first TCP packet listed.	
+a) Which next-hop node is it destined to? Specify the next-hop node's MAC and IP address. How did you determine this information?
+A:  Ip-address => 10.105.1.250
+	Mac-address => 00:19:56:ed:66:c1
+b) Who is the packet's final destination? Specify the final destination’s IP address.  How did you determine this information? Can you find it’s MAC address?
+A:	Ip-address => 10.129.41.2 
+	We can't find synerg's MAC address as it is out of local network.  
+
+c) What are the fields used at the link(Ethernet), IP and TCP headers to demux the packet at the next hop or destination? Specify the values of these fields in decimal format and the corresponding process(protocol) the packet is passed to.
+A: Ethernet=>type: IP(0x0800)
+	IPV4=> protocol: TCP (6)
+	TCP=> Destination port: http(80)
+
+Exercise 4:
+
+1. Explain your design by specifying the exact commands (with options) you will run and in which order. Avoid description unless absolutely necessary.
+A: First we ran 'sudo tcpdump -n host nsl-13 -w log' and kept it running. We ran command `ping nsl-13` and `ssh rakeshranjan@nsl-13` and captured the packets.
+
+2. Arp protocol: Click on any one of the ARP packets.
+a) Trace the flow of this packet up the protocol stack i.e specify what all processes/protocols handle this packet.
+A: ethernet II and arp
+b) What is the value of the field used in Ethernet header to pass packets to the ARP module?
+Express it in decimal format.
+A:	2054
+
+3. ICMP protocol: Click on any one of the ICMP packets.
+a) Trace the flow of this packet up the protocol stack i.e specify what all processes handle this packet.
+A: Ethernet II, IPV4, ICMP	
+b) Expand the “Ethernet” header. Which higher level process (protocol) is this packet passed to and what is the value in decimals?
+A: 2048
+c) Expand the IP header. What is the value of the field used in this header to pass packets to the ICMP module? Express it in decimal format.
+A: 1
+
+4. SSH protocol: Click on any one of the SSH packets.
+a) Click on the IP header field. Specify the source and destination IP addresses.
+A: Source: 10.105.14.8
+   Destination: 10.105.12.13
+b) Expand the TCP header. Specify the source and destination port numbers.
+A: Source 47416
+	dst: 22
+c) Which machine (IP address) is the SSH server? Hint: SSH server's listen on designated ports as specified in /etc/services.
+A: 10.105.12.13
+
+
+Exercise 5: Some more Demultiplexing [40 Min]
+
+1. Explain your design by specifying the exact commands (with options) you will run and in which order. Avoid description unless absolutely necessary.
+A:  Opened three terminal windows, ran `sudo tcpdump -n host nsl-13 -w log` in terminal1, ran `ssh rakeshranjan@nsl-13` in the other two terminals and captured the resulting packets.  
+
+2. What is the port number used by the remote machine for the first and the second ssh session? Are both sessions connected to the same port number on the remote machine? How do you think the ssh application at remote machine distinguishes between the two sessions?
+A: Both the ssh sessions use port 22.  Both the sessions use the same port number. The host machine differentiates the sessions using source port. 
+
+3. When your machine receives packets from the remote host, how does the TCP layer figure out to which ssh session this packet has to be passed? Specify the value of the fields used by TCP to do this.
+A: TCP layer figures out using destination port number of the received packet. Both the numbers are 47319 and 47316.

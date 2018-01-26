@@ -1,0 +1,6 @@
+ls -l 
+ps
+gedit
+sleep 10
+pwd
+ls

@@ -1,0 +1,25 @@
+g++ -std=c++11 -pthread main.cpp -o main
+./main
+12: attempted to access/modify : attempted to access/modify 100 300113 113
+
+Loaded page 100 into frame 100
+Reported a page fault
+Loaded page 300 into frame 1300: attempted to access/modify 120
+ Reported a page fault
+2: attempted to access/modify 623 223
+Reported a memory protection violation
+223
+Number of access operations : Loaded page 0001
+Number of modify operations : 1200001
+ into frame Number of page faults : 1010001
+
+Reported a page fault
+1: attempted to access/modify 100 113
+Accessed page frame number 100
+1: attempted to access/modify 094 114
+Removed page 300 from frame 0
+Loaded page 94 into frame 0
+Reported a page fault
+Number of access operations : 0002
+Number of modify operations : 0002
+Number of page faults : 0003

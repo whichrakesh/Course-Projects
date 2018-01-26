@@ -1,0 +1,18 @@
+(In graph all times are in seconds)
+Interpretation = Here key is to factor out disk rotation effects by making consecutive seeks to indiviual sectors with address that differ by a linearly increasing amount.
+Here there is high peak in the graph when there is a head switch. Among these high peaks there is a higher peak whenever there is cylinder switch. The number of heads in the cylinder can be found by calculating the number of head switches between two  cylinder  switches.
+
+What is the minimum rotation time? Maximum rotation time? Average rotation time?
+maximum rotation latency = 22ms
+minimum rotation latency = few ms
+avg rotation latency = 10.0 ms 
+
+What is the head switch time?
+Its the smallest peaks of the graph: 2.0 ms
+
+What is the track switch time?
+The track switch time corresponds to the next bigger peaks which occur among the small peaks: 5ms.
+
+How many heads does your hard disk have? Does the reading from your graph roughly match with the reading from using “fdisk -l”?
+from the graph, we can find the number of heads by calculating the number of peaks between two consecutive cylinder switches. It came out to be 19. 
+It is very different than the output of "fdisk -l" which gives 63 heads.

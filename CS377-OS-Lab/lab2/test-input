@@ -1,0 +1,19 @@
+add_email sumansourabh26@gmail.com
+add_email whichrakesh@gmail.com
+search_email rakesh@yahoo.com
+delete_email sumansourabh26@gmail.com
+delete_domain randomdomain.com
+add_email sumansourabh26@gmail.com
+add_email randomsuman@yahoo.com
+send_email randomsuman@yahoo.com sumansourabh26@gmail.com yo bitch..........kaisa hai.
+add_email randomsuman1@randomdomain.com
+search_email randomsuman@yahoo.com
+add_email ntnchandrol@gmail.com
+add_email randomsuman@yahoo.com
+add_email randomsuman2@randomdomain.com
+search_email not_exist@yahoo.com
+delete_email random@no_exist_domail.com
+delete_email not_exist@gmail.com
+delete_domain randomdomain.com
+send_email randomuser@gmail.com sumansourabh26@yahoo.com "randomuserGmail to sumansourabh26Yahoo...should fail"
+send_email ntnchandrol@gmail.com randomuser@gmail.com "randomuserGmail ...should fail"

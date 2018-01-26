@@ -1,0 +1,85 @@
+Task 01: 
+Open a submission file lab03.txt in an editor, and answer the following
+questions in it:
+○ Keep increasing the window size to increase the throughput. Enter
+throughput obtained for 3 different window sizes.
+A:      window size: 4        throughput: 61.25 KB/s
+        window size: 20       throughtput 244.249 KB/s
+        window size: 40       throughtput 244.249 KB/s
+        window size: 10       throughtput 142.173 KB/s
+○ What is the maximum throughput the ftp flow can achieve?
+A:      the maximum throughput the ftp can achieve: 244.249KB/s = 1.295 Mb/s
+○ What is window size (minimum) at which this throughput was
+obtained?
+A:      20
+○ How does this compare with the raw data rate of the bottleneck link?
+A:      The max data rate is approximately equal to the raw data rate of the bottleneck link.
+        
+###########################################################################################################
+Task 02:
+Play with the CBR flow parameters and check the throughput and delays
+Give the following answers
+○ Enter 3 different throughput values (in increasing order), for 3 different
+sets of flow parameters
+A:     packet size: 500, interval:10ms,  throughput: 49.7368 KBps 
+       packet size: 500, interval:100ms,  throughput: 5.0769 KBps 
+       packet size: 500, interval:2ms,  throughput: 248.233 KBps 
+○ What is the maximum throughput this flow can achieve?
+A:      248.233 KBps, 1.985 Mb/s
+○ How does this compare with the raw data rate of the bottleneck link?
+A: this is approx. equal to the raw data rate of the bottle neck link.
+
+############################################################################################################
+Task03:
+Now activate both flows, and configure start/stop times such that both the
+CBR and FTP flows are running simultaneously for most part of the
+simulation.
+Set the CBR flow to packet size 1000 bytes, and interval to 0.01
+Set the tcp window size to the value which gave you the maximum ftp
+throughput in Task 1
+Calculate CBR throughput, CBR delay, FTP throughput, FTP Delay
+Note all the flow parameters, and the corresponding metrics in lab03.txt
+○ CBR packet size : 1000bytes
+○ CBR interval : 0.01s
+○ FTP window size : 20
+○ CBR throughput, delay : 98.0804KB/s, 0.0375s
+○ FTP throughput, delay : 244.172KB/s, 0.0534s
+
+Keep increasing the CBR flow offered* rate and see its impact on the FTP
+flow throughput and delay. Do not change any ftp flow parameter.
+Enter in lab03.txt the parameters and metrics as described before for at
+least three set of parameters such that CBR offered rate is increasing
+
+packet size(KB)    interval(ms)      |    ftp-throughput(KB/s)    ftp-delay(s)          cbr-throughput(KB/s)          cbr-delay(s)
+--------------------------------------------------------------------------------------------------------------------------------------
+1000                     5                   139.648              0.0504                      194.03                    0.044
+2000                     5                   109.158              0.0527                      240.854                   0.2288
+2000                     2                   109.158              0.0527                      240.862                   0.235
+
+Write down conclusions regarding how
+○ The increase affects CBR’s own throughput and delay
+A: The CBR's own throughput and delay increase on increase of CBR offered rate. 
+○ How the increase affects FTP’s throughput and delay
+A: The FTP throughput decreases and delay increases on increase of CBR offered rate.
+
+############################################################################################################
+Task04:
+Now keep increasing the bandwidth of the 0-2 link (and correspondingly
+the window size so as to keep utilizing the link fully). This is the way to
+increase ftp flow “offered load”. Do not change any CBR flow parameter.
+Enter in lab03.txt the parameters and metrics as before (now include 0-2
+link bandwidth as a parameter) for at least three values of 0-2 link
+bandwidths (increasing)
+
+bandwidth            window size      ftp-throughput(KB/s)    ftp-delay(s)          cbr-throughput(KB/s)          cbr-delay(s)
+--------------------------------------------------------------------------------------------------------------------------------------
+2Mbps                    20                  244.172              0.0534                      98.0304                    0.037
+2.5Mbps                  25                  268.847              0.0458                      98.0304                    0.044   
+3Mbps                    30                  268.887              0.0458                      98.0304                    0.045
+4Mbps                    40                  268.936              0.0458                      98.0304                    0.046           
+Write down conclusions regarding how
+○ The increase affects FTP’s own throughput and delay
+A: when we increase the bandwidth froim 2-2.5 the ftp-throughput increases but after that due to bottleneck limit of the bandwidth link 2-3, the throughput of 0-1 doesn't inrease.
+○ How the increase affects CBR’s throughput and delay
+A: The cbr-throughput remains constant and the delay increases on increasing ftp-offering rate.
+

@@ -1,0 +1,66 @@
+﻿Task 0:
+1. Which command was used to create the LAN? What are its arguments? How was the MAC protocol specified?
+A: set lan ( parameters for the lan: simulator, Lan name, nodelist, delay, llctype(logic layer type), interface queue type(ifq), mactype, channel type and option for tracefile.
+Mac protocol was specified by firstly defining a mac protocol “set opt(mac) Mac/802_3” and then using it in argument while creating lan.
+
+
+2. What is the data rate (bandwidth) of the LAN? Remember this - this an important parameter.
+A: 1Mbps
+
+
+3. What is the packet size (bytes) used in the generated traffic? Where is the offered rate set?
+A: Packet size is 1000 B. Offered rate per node is set to 100Kbps.
+
+
+4.  What is the duration of the simulation when traffic is active?
+A: 10s
+
+
+Q.What is the expected transfer time of a packet on this link (propagation delay is being ignored)?
+A: 0.008s.
+
+
+Q. When are the packets actually received?
+A: 0.0082s
+
+
+Q. One computes the overall throughput 
+ Find the throughput of the 4-node experiment, see if it  makes sense.
+A: throughput = 401.836 Kbps
+
+
+Q.  One computes delays
+○ From enqueue to deque (time in the interface queue)
+A: Average interface delay = 0s
+○ From deque to receive (time of transmission including backoff)
+A: Average travel delay = 0.0235192
+
+
+Task1: 
+See what happens when there is only one node
+● Look at the throughput, the delays
+throughput :  100.724 Kbps
+which decreases due to the number of nodes being reduced to 1. The throughput is approx equals to the bw of the node.  
+● Understand the numbers to the extent 
+possible
+Average iface delay =  0 Average travel delay = 0.008116. All  delays are the same.
+The travel delay decreases due to less accident. 
+
+
+Task 2:
+Q.Given the bandwidth of 1Mbps, how many nodes should  this LAN ideally support?
+A: 10 nodes
+Q.What is the ideal max throughput (roughly)?
+A: 100Kb/s per node
+
+
+Task 4:
+Q.What is each node’s throughput? What is the total?
+A: node 2 : 426.958Kbps
+    node 1: 437.356Kbps
+        Total : 842.798 Kbps
+Q.Now change Node 1’s offered rate to 900 kbps
+        Now what is each node’s throughput? What is the total?
+A. node 1: 627.075 Kbps
+     node 2: 300.139 Kbps
+        total: 890.969Kbps

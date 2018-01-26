@@ -1,0 +1,8 @@
+open a.txt
+seek a.txt 50
+seek a.txt relative 10
+read a.txt 100
+open t.txt
+seek t.txt 250
+write t.txt 20 rakeshranjannayak
+end

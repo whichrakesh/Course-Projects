@@ -1,0 +1,3 @@
+Question [4 marks]: At what point in your tree of call activations will the stack depth be the maximum (just with respect to the recursive calls)? Insert a breakpoint at a place in the code where the stack is at its maximum size. Examine the stack and explain its contents with reference to your code. Point out the various call activation records. Hint: you have to insert a breakpoint at an appropriate place in the mergesort procedure, not the merge procedure.
+
+A: It will be maximum  for the base case in the merge-sort function. 

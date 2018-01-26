@@ -1,0 +1,3 @@
+parallel echo "suman" ::: sleep 3 ::: random_chutiyapa ::: echo "not to be printed"
+ls
+ls -l
